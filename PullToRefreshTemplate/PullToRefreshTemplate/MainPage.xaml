@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PullToRefreshTemplate.MainPage"
+             xmlns:sfgrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:pulltoRefresh="clr-namespace:Syncfusion.Maui.PullToRefresh;assembly=Syncfusion.Maui.PullToRefresh"
+             xmlns:local="clr-namespace:PullToRefreshTemplate">
+
+    <ContentPage.Behaviors>
+        <local:PullToRefreshTemplateBehavior />
+    </ContentPage.Behaviors>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <OnPlatform x:Key="minimumWidth"
+                        x:TypeArguments="x:Double">
+                <On Platform="Android,iOS"
+                    Value="115"></On>
+            </OnPlatform>
+            <OnPlatform x:Key="optionRowSpacing"
+                        x:TypeArguments="x:Double">
+                <On Platform="iOS, WinUI, MacCatalyst"
+                    Value="5"></On>
+            </OnPlatform>
+            <OnPlatform x:Key="margin"
+                        x:TypeArguments="Thickness">
+                <On Platform="WinUI,MacCatalyst"
+                    Value="-5.5,-5,-5,-7" />
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid Margin="0, 20, 0, 0">
+            <pulltoRefresh:SfPullToRefresh x:Name="pullToRefresh"
+                                           RefreshViewHeight="50"
+                                           RefreshViewThreshold="30"
+                                           PullingThreshold="150"
+                                           RefreshViewWidth="50"
+                                           ProgressThickness='{OnPlatform Android="3", Default="2"}'
+                                           TransitionMode="Push"
+                                           Margin="{StaticResource margin}"
+                                           IsRefreshing="False">
+                <pulltoRefresh:SfPullToRefresh.PullableContent>
+                    <sfgrid:SfDataGrid x:Name="dataGrid"
+                                       HeaderRowHeight="52"
+                                       RowHeight="48"
+                                       SortingMode="Single"
+                                       ItemsSource="{Binding OrdersInfo}"
+                                       AutoGenerateColumnsMode="None"
+                                       ColumnWidthMode="Auto"
+                                       HorizontalScrollBarVisibility="Always"
+                                       VerticalScrollBarVisibility="Always">
+                        <sfgrid:SfDataGrid.DefaultStyle>
+                            <sfgrid:DataGridStyle HeaderRowFontFamily="Roboto-Medium"></sfgrid:DataGridStyle>
+                        </sfgrid:SfDataGrid.DefaultStyle>
+                        <sfgrid:SfDataGrid.Columns>
+                            <sfgrid:DataGridNumericColumn Format="D"
+                                                          MinimumWidth="{StaticResource minimumWidth}"
+                                                          HeaderText="Order ID"
+                                                          MappingName="OrderID">
+                            </sfgrid:DataGridNumericColumn>
+                            <sfgrid:DataGridTextColumn MinimumWidth="{StaticResource minimumWidth}"
+                                                       HeaderText="Customer ID"
+                                                       MappingName="EmployeeID">
+                            </sfgrid:DataGridTextColumn>
+
+                            <sfgrid:DataGridTextColumn MinimumWidth="{StaticResource minimumWidth}"
+                                                       HeaderText="Name"
+                                                       MappingName="FirstName">
+                            </sfgrid:DataGridTextColumn>
+
+                            <sfgrid:DataGridTextColumn MinimumWidth="{StaticResource minimumWidth}"
+                                                       HeaderText="City"
+                                                       MappingName="ShipCity">
+                            </sfgrid:DataGridTextColumn>
+                            <sfgrid:DataGridTextColumn MinimumWidth="{StaticResource minimumWidth}"
+                                                       HeaderText="Country"
+                                                       MappingName="ShipCountry">
+                            </sfgrid:DataGridTextColumn>
+                            <sfgrid:DataGridNumericColumn MinimumWidth="{StaticResource minimumWidth}"
+                                                          Format="C"
+                                                          HeaderText="Freight"
+                                                          MappingName="Freight">
+                            </sfgrid:DataGridNumericColumn>
+
+                        </sfgrid:SfDataGrid.Columns>
+
+                    </sfgrid:SfDataGrid>
+                </pulltoRefresh:SfPullToRefresh.PullableContent>
+            </pulltoRefresh:SfPullToRefresh>
+        </Grid>
+    </ContentPage.Content>
+
+</ContentPage>
